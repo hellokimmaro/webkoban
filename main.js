@@ -71,20 +71,19 @@ function clickJoystick(x, y) {
     if (x > 20 && x < 20 + 160
         && y > canvas.height - 20 - 160 && y <  canvas.height-20) {
 
-        console.log(x);
         if (y > canvas.height-20-53) // down
         {
             if (move(0, 1))  {
                 draw();
             }
         }
-        else if (y > canvas.height-20-53-53) // up
+        else if (y > canvas.height-20-53-53) // middle
         {
-            if (x < 20+(160/2)) {
-                if (move(-1, 0))  {
+            if (x < 20+50) {
+                if (move(-1, 0))  { // left
                     draw();
                 }
-            } else {
+            } else if (x > 20+160-50) { // right
                 if (move(1, 0))  {
                     draw();
                 }
