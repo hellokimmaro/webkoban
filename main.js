@@ -39,7 +39,7 @@ window.onload = function() {
     };
 
     joyImage = new Image(); 
-    joyImage.src = "img/joystick.png"; 
+    joyImage.src = "joystick.png"; 
     joyImage.onload = function() {
         init();
     };
