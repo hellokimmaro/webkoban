@@ -27,7 +27,7 @@ window.onload = function() {
     document.onkeydown = doKeyDown;
 
     image = new Image(); 
-    image.src = "img/sokobox.gif"; 
+    image.src = "sokobox.gif"; 
     image.onload = function() {
         init();
     };
