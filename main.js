@@ -14,6 +14,7 @@ var dest;
 var px, py;
 
 var resetButton;
+//var upButton;
 
 window.onload = function() {
     canvas = document.getElementById("myCanvas");
@@ -22,6 +23,27 @@ window.onload = function() {
     //resetButton = document.getElementById("reset").onclick = resetClick;
     resetButton = document.getElementById('reset');
     resetButton.addEventListener('click', resetClick, false);
+
+    document.getElementById('up').addEventListener('click', function() {
+        if (move(0, -1))  {
+            draw();
+        }
+    }, false);
+    document.getElementById('down').addEventListener('click', function() {
+        if (move(0, 1))  {
+            draw();
+        }
+    }, false);
+    document.getElementById('left').addEventListener('click', function() {
+        if (move(-1, 0))  {
+            draw();
+        }
+    }, false);
+    document.getElementById('right').addEventListener('click', function() {
+        if (move(1, 0))  {
+            draw();
+        }
+    }, false);
 
     //canvas.addEventListener("keydown", doKeyDown, true);
     document.onkeydown = doKeyDown;
