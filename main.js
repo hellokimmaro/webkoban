@@ -2,6 +2,8 @@
 var canvas;
 var ctx;
 var image;
+var joyImage;
+
 var level = [ 
     ['#','#','#','#','#','#'],
     ['#',' ','@',' ',' ','#'],
@@ -14,36 +16,18 @@ var dest;
 var px, py;
 
 var resetButton;
-//var upButton;
 
 window.onload = function() {
     canvas = document.getElementById("myCanvas");
     ctx = canvas.getContext("2d");
 
+    canvas.addEventListener('click', function(event) {
+        clickJoystick(event.offsetX, event.offsetY);
+    }, false);
+
     //resetButton = document.getElementById("reset").onclick = resetClick;
     resetButton = document.getElementById('reset');
     resetButton.addEventListener('click', resetClick, false);
-
-    document.getElementById('up').addEventListener('click', function() {
-        if (move(0, -1))  {
-            draw();
-        }
-    }, false);
-    document.getElementById('down').addEventListener('click', function() {
-        if (move(0, 1))  {
-            draw();
-        }
-    }, false);
-    document.getElementById('left').addEventListener('click', function() {
-        if (move(-1, 0))  {
-            draw();
-        }
-    }, false);
-    document.getElementById('right').addEventListener('click', function() {
-        if (move(1, 0))  {
-            draw();
-        }
-    }, false);
 
     //canvas.addEventListener("keydown", doKeyDown, true);
     document.onkeydown = doKeyDown;
@@ -51,6 +35,12 @@ window.onload = function() {
     image = new Image(); 
     image.src = "sokobox.gif"; 
     image.onload = function() {
+        //init();
+    };
+
+    joyImage = new Image(); 
+    joyImage.src = "img/joystick.png"; 
+    joyImage.onload = function() {
         init();
     };
 }
@@ -73,6 +63,40 @@ function init() {
         }
     }
     draw();
+}
+
+function clickJoystick(x, y) {
+    //ctx.drawImage(joyImage, 20, canvas.height-20-joyImage.height);
+
+    if (x > 20 && x < 20 + 160
+        && y > canvas.height - 20 - 160 && y <  canvas.height-20) {
+
+        console.log(x);
+        if (y > canvas.height-20-53) // down
+        {
+            if (move(0, 1))  {
+                draw();
+            }
+        }
+        else if (y > canvas.height-20-53-53) // up
+        {
+            if (x < 20+(160/2)) {
+                if (move(-1, 0))  {
+                    draw();
+                }
+            } else {
+                if (move(1, 0))  {
+                    draw();
+                }
+            }
+        }
+        else // up
+        {
+            if (move(0, -1))  {
+                draw();
+            }
+        }
+    }
 }
 
 function reset() {
@@ -129,7 +153,13 @@ function draw() {
         }
     }
 
-    ctx.clearRect( 0, 0, 400, 300 );
+    var cx = canvas.width - (level[0].length*40);
+    var cy = canvas.height - (level.length*40);
+
+    ctx.clearRect( 0, 0, canvas.width, canvas.height );
+    
+    ctx.save();
+    ctx.translate(cx/2, cy/2);
 
     for (var y = 0; y < level.length; y++) {
         for (var x = 0; x < level[y].length; x++) {
@@ -153,7 +183,11 @@ function draw() {
             }
         }
     }
+
     ctx.drawImage(image, 40*2, 0, 40, 40, px*40, py*40, 40, 40);
+
+    ctx.restore();
+    ctx.drawImage(joyImage, 20, canvas.height-20-joyImage.height);
 
     if (completed) {
         ctx.font = '48px serif';
